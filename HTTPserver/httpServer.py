@@ -1,3 +1,5 @@
+from HTTPserver import conf
+
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from HTTPserver import pathHandler
 import Resources.Plugin as plugin
@@ -40,11 +42,11 @@ def run():
     pathHandler.add_Path("/style.css", pathHandler.GET_StyleSheet)
     pathHandler.add_Path("/resources", pathHandler.GET_Resources)
 
-    print('Avvio del server...')
-    server_address = ('192.168.178.190', 8081)
-    #server_address = ('localhost', 8081)
+    print('Server start up')
+    server_address = (conf.IP, conf.PORT)
     httpd = HTTPServer(server_address, HTTPServer_RequestHandler)
-    print('Server in esecuzione...')
+    print(f'Server running at {httpd.server_address}')
     httpd.serve_forever()
+
 
 run()
