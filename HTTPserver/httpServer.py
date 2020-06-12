@@ -13,28 +13,34 @@ class HTTPServer_RequestHandler(BaseHTTPRequestHandler):
         pathHandler.handler_Path(self)
 
     def do_POST(self):
-        content_length = int(self.headers['Content-Length'])
-        if (self.headers['Content-Type'] == "application/json"):
-            query = urlparse(self.path).query
-            print(self.path)
-            root = (self.path.replace('?'+query,'')).split("/")
-            print(root,query)
-            if not query:
-                res_msg = "The request could not understood dut to invalid syntax"
-                res_code = 400
+        if conf.PROD:
+            content_length = int(self.headers['Content-Length'])
+            if (self.headers['Content-Type'] == "application/json"):
+                query = urlparse(self.path).query
+                print(self.path)
+                root = (self.path.replace('?'+query,'')).split("/")
+                print(root,query)
+                if not query:
+                    res_msg = "The request could not understood dut to invalid syntax"
+                    res_code = 400
+                else:
+                    #rawJson = self.rfile.read(content_length)
+                    #plugin.update_resource((root,query), rawJson)
+                    res_msg = "OK"
+                    res_code = 200
             else:
-                #rawJson = self.rfile.read(content_length)
-                #plugin.update_resource((root,query), rawJson)
-                res_msg = "OK"
-                res_code = 200
-        else:
-            res_code = 415
-            res_msg = "Json is the only Content-Type accepted"
+                res_code = 415
+                res_msg = "Json is the only Content-Type accepted"
 
-        self.send_response(res_code)
-        self.send_header('Content-type', 'text/plain')
-        self.end_headers()
-        self.wfile.write(bytes(res_msg, "utf8"))
+            self.send_response(res_code)
+            self.send_header('Content-type', 'text/plain')
+            self.end_headers()
+            self.wfile.write(bytes(res_msg, "utf8"))
+        else:
+            self.send_response(200)
+            self.send_header('Content-type', 'text/plain')
+            self.end_headers()
+            self.wfile.write(bytes("Unable to process your request, the server is not in production mode. \nModify /HTTPserver/conf.py", "utf8"))
 
 def run():
     pathHandler.add_Path("/", pathHandler.GET_MainPage)
