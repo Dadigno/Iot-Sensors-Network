@@ -13,11 +13,16 @@ def read_resources():
     return res
 
 
-def update_resource(resource, rawJson):
+def update_resource(root, rawJson):
+    data = json.loads(rawJson)
+
     with open(filepath, 'r') as f:
         res = json.load(f)
-    data = json.loads(rawJson)
-    res[resource[0]][resource[1]] = data
+
+    k = list(data.keys())
+    res[root][k[0]] = data[str(k[0])]
     with open(filepath, 'w') as fp:
         json.dump(res, fp, indent=2)
+
+
 
