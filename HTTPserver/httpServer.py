@@ -3,6 +3,7 @@ from HTTPserver import conf
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from HTTPserver import pathHandler
 import Resources.Plugin as plugin
+import Resources.Simulator as Sim
 from urllib.parse import urlparse
 
 
@@ -16,16 +17,12 @@ class HTTPServer_RequestHandler(BaseHTTPRequestHandler):
         if conf.PROD:
             content_length = int(self.headers['Content-Length'])
             if (self.headers['Content-Type'] == "application/json"):
-                query = urlparse(self.path).query
-                print(self.path)
-                root = (self.path.replace('?'+query,'')).split("/")
-                print(root,query)
-                if not query:
+                if content_length == 0:
                     res_msg = "The request could not understood dut to invalid syntax"
                     res_code = 400
                 else:
-                    #rawJson = self.rfile.read(content_length)
-                    #plugin.update_resource((root,query), rawJson)
+                    rawJson = self.rfile.read(content_length)
+                    plugin.update_resource(self.path.replace('/',''), rawJson)
                     res_msg = "OK"
                     res_code = 200
             else:
@@ -52,7 +49,28 @@ def run():
     server_address = (conf.IP, conf.PORT)
     httpd = HTTPServer(server_address, HTTPServer_RequestHandler)
     print(f'Server running at {httpd.server_address}')
+    if not conf.PROD:
+        Sim.start_simulator()
+
     httpd.serve_forever()
 
 
 run()
+
+
+'''
+Example:
+
+POST request
+URL: http://localhost:8081/sensors?temp
+Content-Type: application/json
+Payload:
+    {
+        "temp": {
+          "value": 120,
+          "unit": "mt"
+        } 
+    }
+
+
+'''
