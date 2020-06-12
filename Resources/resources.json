@@ -1,21 +1,21 @@
 {
   "sensors": {
     "temp": {
-      "value": 20.3,
+      "value": -1,
       "unit": "C"
     },
     "hum": {
-      "value": 99.9,
+      "value": -1,
       "unit": "%"
     },
     "tank": {
-      "value": 34,
+      "value": -1,
       "unit": "mt"
     }
   },
   "actuators": {
     "pump": {
-      "state": "ON"
+      "state": "OFF"
     }
   }
 }
