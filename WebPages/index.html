@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Sensors Network</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+<body>
+    <table>
+    <tr>
+    <td>Temp 1</td>
+    <td id="temp">nan</td>
+    <td style="width: 91px;">C</td>
+    </tr>
+    <tr>
+    <td>Humidity</td>
+    <td id="hum">nan</td>
+    <td>%</td>
+    </tr>
+    <tr>
+    <td>Tank</td>
+    <td id="tank">nan</td>
+    <td>mt</td>
+    </tr>
+    <tr>
+    <td>Pump</td>
+    <td id="pump_state">?</td>
+    <td><button  onclick="postBT()" id="pump_bt">nan</button></td>
+    </tr>
+    </table>
+    <script src="/sensors.js"></script>
+</body>
+</html>
+
