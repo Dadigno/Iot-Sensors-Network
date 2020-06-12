@@ -12,7 +12,7 @@ def add_Path(path, func):
     pathList.append((path, func))
 
 def GET_MainPage(req):
-    s = open("WebPages/index.html")
+    s = open("../WebPages/index.html")
     res_body = s.read()
     req.send_response(200)
     req.send_header('Content-type', 'text/html')
@@ -21,7 +21,7 @@ def GET_MainPage(req):
     req.wfile.write(bytes(resp_msg, "utf8"))
 
 def GET_DataScript(req):
-    s = open("WebPages/sensors.js")
+    s = open("../WebPages/sensors.js")
     res_body = s.read()
     req.send_response(200)
     req.send_header('Content-type', 'application/javascript')
@@ -30,7 +30,7 @@ def GET_DataScript(req):
     req.wfile.write(bytes(resp_msg, "utf8"))
 
 def GET_StyleSheet(req):
-    s = open("WebPages/style.css")
+    s = open("../WebPages/style.css")
     res_body = s.read()
     req.send_response(200)
     req.send_header('Content-type', 'text/css')

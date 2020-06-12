@@ -5,7 +5,7 @@
 ###
 import json
 
-filepath = "Resources/resources.json"
+filepath = "../Resources/resources.json"
 
 def read_resources():
     with open(filepath, 'r') as f:
